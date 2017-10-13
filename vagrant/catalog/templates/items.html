@@ -1,0 +1,12 @@
+{% for item in items %}
+<a href = "{{url_for('editItem', category_id = category.id, item_id = item.id)}}">
+    
+    <div class="row">
+        <div class="col-md-1"></div>
+            <div class="col-md-10 restaurant-list">
+                <h3>{{item.name}}</h3>
+            </div>
+<a/>
+<h4>{{item.description}}</h4>
+
+{% endfor %}

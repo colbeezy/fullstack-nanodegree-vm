@@ -1,0 +1,12 @@
+{% block content %}
+    {% for category in categories %}
+    <a href = "{{url_for('showItems', category_id = category.id)}}">
+        <div class="row">
+            <div class="col-md-1"></div>
+                    <h3>{{category.name}}</h3>
+            <div class="col-md-1"></div>
+        </div>
+    </a>
+    {% endfor %}
+
+{% endblock %}
