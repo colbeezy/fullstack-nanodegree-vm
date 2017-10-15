@@ -95,7 +95,7 @@ def showItems(category_id):
 
 # Create an item
 @app.route('/categories/<int:category_id>/items/new/', methods=['GET', 'POST'])
-def newMenuItem(category_id):
+def newItem(category_id):
     if request.method == 'POST':
         newItem = Item(name=request.form['name'], description=request.form[
                 'description'], category_id=category_id)
@@ -107,9 +107,16 @@ def newMenuItem(category_id):
         return render_template('newItem.html', category_id=category_id)
 
 
-# Edit an item
+# Show all information about an item
 @app.route('/categories/<int:category_id>/<int:item_id>/')
 @app.route('/categories/<int:category_id>/items/<int:item_id>/')
+def showItem(category_id, item_id):
+    category = session.query(Category).filter_by(id=category_id).one()
+    item = session.query(Item).filter_by(id=item_id).one()
+    return render_template('item.html', item=item, category=category, category_id = category_id)
+
+
+# Edit an item
 @app.route('/categories/<int:category_id>/items/<int:item_id>/edit/', methods=['GET', 'POST'])
 def editItem(category_id, item_id):
     category = session.query(Category).filter_by(id=category_id).one()
