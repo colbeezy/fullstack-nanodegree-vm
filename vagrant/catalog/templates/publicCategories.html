@@ -1,5 +1,3 @@
-<a href = "{{url_for('newCategory')}}">Add a new category</a>
-
 {% block content %}
     {% for category in categories %}
     <a href = "{{url_for('showItems', category_id = category.id)}}">

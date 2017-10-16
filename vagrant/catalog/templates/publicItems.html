@@ -1,9 +1,4 @@
 <h1>{{category.name}}</h1>
-<a href="{{url_for('editCategory', category_id = category.id)}}">Edit</a>
-<a href="{{url_for('deleteCategory', category_id = category.id)}}">Delete</a>
-<br>
-<br>
-<a href = "{{url_for('newItem', category_id = category.id)}}">Add a new item</a>
 
 {% for item in items %}
 <a href = "{{url_for('showItem', category_id = category.id, item_id = item.id)}}">
