@@ -1,20 +1,20 @@
-<html>
-    <body>
-        
-        <h1>New Item</h1>
-        
-        <form action="#" method = 'post'>
-        
-        
-            <p>Name:</p>
-                <input type ='text' size='30' name='name'>
+{% include "main.html" %}
 
-            <p>Description:</p>
+<div class="container-fluid main-1 text-center">
+   <h3>Add a New Item to {{category.name}}</h3>
+</div>
+<div class="container-fluid main-2 text-center">
+    <p>
+        <form action="#" method = 'post'>                               
+            <p>Name:
+                <input type ='text' size='30' name='name'>     
+            </p>    
+            <p>Description:
                 <input type ='text' size='30' name='description'>
-              
-            <input type='submit' value='Create'>
-        
+            </p>
+            <input type='submit' value='Create'>        
         </form>
-        
-    </body>
+    </p>
+</div>
+</body>
 </html>

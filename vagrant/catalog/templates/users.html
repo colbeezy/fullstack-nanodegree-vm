@@ -1,6 +1,18 @@
-<h1>Contributors</h1>
-{% for user in users %}
-<h2>{{user.name}}</h2>
-<img src="{{user.profile_image}}" alt="Profile image"> 
+{% include "main.html" %}
 
-{% endfor %}
+<div class="container-fluid main-1 text-center">
+        <h3>Contributors</h3>
+        <img src="http://www.shapeamerica.org/publications/resources/teachingtools/teachertoolbox/images/contributors.jpg" class="img-fluid rounded-circle" style="display:inline" alt="Eating popcorn">
+    </div>
+    <div class="container-fluid main-2 text-center">
+            {% for user in users %}
+            <p>
+                <h4>{{user.name}}</h4>
+                <img src="{{user.profile_image}}" class= "img-fluid" style="display:inline" alt="Profile image"> 
+            </p>
+            <br>
+            {% endfor %}
+        </p>
+    </div>
+</body>
+

@@ -1,14 +1,19 @@
-<h1>{{category.name}}</h1>
+{% include "main.html" %}
 
-{% for item in items %}
-<a href = "{{url_for('showItem', category_id = category.id, item_id = item.id)}}">
-    
-    <div class="row">
-        <div class="col-md-1"></div>
-            <div class="col-md-10 restaurant-list">
-                <h3>{{item.name}}</h3>
-            </div>
-<a/>
-<h4>{{item.description}}</h4>
+    <div class="container-fluid main-1 text-center">
+        <h3>{{category.name}}</h3>
+    </div>
+    <div class="container-fluid main-2 text-center">
+        {% for item in items %}
+        <p>
+            <a href = "{{url_for('showItem', category_id = category.id, item_id = item.id)}}">
+                <h4>{{item.name}}</h4>
+            </a>
+            <h5>{{item.description}}</h5>
+            <br>
+        </p>
+        {% endfor %}
+    </div>
+</body>
+</html>
 
-{% endfor %}

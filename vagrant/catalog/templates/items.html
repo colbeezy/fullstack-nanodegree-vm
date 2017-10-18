@@ -1,19 +1,23 @@
-<h1>{{category.name}}</h1>
-<a href="{{url_for('editCategory', category_id = category.id)}}">Edit</a>
-<a href="{{url_for('deleteCategory', category_id = category.id)}}">Delete</a>
-<br>
-<br>
-<a href = "{{url_for('newItem', category_id = category.id)}}">Add a new item</a>
+{% include "main.html" %}
 
-{% for item in items %}
-<a href = "{{url_for('showItem', category_id = category.id, item_id = item.id)}}">
-    
-    <div class="row">
-        <div class="col-md-1"></div>
-            <div class="col-md-10 restaurant-list">
-                <h3>{{item.name}}</h3>
-            </div>
-<a/>
-<h4>{{item.description}}</h4>
+    <div class="container-fluid main-1 text-center">
+        <h3>{{category.name}}</h3>
+        <a href="{{url_for('editCategory', category_id = category.id)}}">Edit</a>
+        <a href="{{url_for('deleteCategory', category_id = category.id)}}">Delete</a>
+    </div>
+    <div class="container-fluid main-2 text-center">
+        {% for item in items %}
+        <p>
+            <a href = "{{url_for('showItem', category_id = category.id, item_id = item.id)}}">
+                <h4>{{item.name}}</h4>
+            </a>
+            <h5>{{item.description}}</h5>
+            <br>
+        </p>
+        {% endfor %}
+        <a href = "{{url_for('newItem', category_id = category.id)}}">Add a new item</a>
+    </div>
+</body>
+</html>
 
-{% endfor %}
+

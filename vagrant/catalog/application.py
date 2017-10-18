@@ -179,9 +179,7 @@ def gdisconnect():
         del login_session['username']
         del login_session['email']
         del login_session['picture']
-        response = make_response(json.dumps('Logout successful.'), 200)
-        response.headers['Content-Type'] = 'application/json'
-        return response
+        return redirect(url_for('showCategories'))
 
     # If something goes wrong, show error message
     else:
@@ -223,7 +221,7 @@ def showCategories():
 # Create a category
 @app.route('/categories/new/', methods=['GET', 'POST'])
 def newCategory():
-    if 'username' not in login_session or creator.id != login_session['user_id']:
+    if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
         newCategory = Category(name=request.form['name'], user_id=login_session['user_id'])
@@ -237,7 +235,7 @@ def newCategory():
 # Edit a category
 @app.route('/categories/<int:category_id>/edit/', methods=['GET', 'POST'])
 def editCategory(category_id):
-    if 'username' not in login_session or creator.id != login_session['user_id']:
+    if 'username' not in login_session:
         return redirect('/login')
     categoryToEdit = session.query(Category).filter_by(id=category_id).one()
     if request.method == 'POST':
@@ -254,7 +252,7 @@ def editCategory(category_id):
 # Delete a category
 @app.route('/categories/<int:category_id>/delete/', methods=['GET', 'POST'])
 def deleteCategory(category_id):
-    if 'username' not in login_session or creator.id != login_session['user_id']:
+    if 'username' not in login_session:
         return redirect('/login')
     categoryToDelete = session.query(Category).filter_by(id=category_id).one()
     if request.method == 'POST':
@@ -282,6 +280,8 @@ def showItems(category_id):
 # Create an item
 @app.route('/categories/<int:category_id>/items/new/', methods=['GET', 'POST'])
 def newItem(category_id):
+    category = session.query(Category).filter_by(id=category_id).one()
+    creator = getUserInfo(category.user_id)
     if 'username' not in login_session or creator.id != login_session['user_id']:
         return redirect('/login')
     if request.method == 'POST':
@@ -293,7 +293,7 @@ def newItem(category_id):
 
         return redirect(url_for('showItems', category_id=category_id))
     else:
-        return render_template('newItem.html', category_id=category_id)
+        return render_template('newItem.html', category_id=category_id, category=category)
 
 
 # Show all information about an item
@@ -312,10 +312,11 @@ def showItem(category_id, item_id):
 # Edit an item
 @app.route('/categories/<int:category_id>/items/<int:item_id>/edit/', methods=['GET', 'POST'])
 def editItem(category_id, item_id):
-    if 'username' not in login_session or creator.id != login_session['user_id']:
-        return redirect('/login')
     category = session.query(Category).filter_by(id=category_id).one()
     itemToEdit = session.query(Item).filter_by(id=item_id).one()
+    creator = getUserInfo(itemToEdit.user_id)
+    if 'username' not in login_session or creator.id != login_session['user_id']:
+        return redirect('/login')
     if request.method == 'POST':
         if request.form['name']:
             itemToEdit.name = request.form['name']
@@ -330,10 +331,11 @@ def editItem(category_id, item_id):
 # Delete an item
 @app.route('/categories/<int:category_id>/items/<int:item_id>/delete/', methods=['GET', 'POST'])
 def deleteItem(category_id, item_id):
-    if 'username' not in login_session or creator.id != login_session['user_id']:
-        return redirect('/login')
     category = session.query(Category).filter_by(id=category_id).one()
     itemToDelete = session.query(Item).filter_by(id=item_id).one()
+    creator = getUserInfo(itemToDelete.user_id)
+    if 'username' not in login_session or creator.id != login_session['user_id']:
+        return redirect('/login')
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()

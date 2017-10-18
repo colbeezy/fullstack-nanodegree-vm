@@ -1,7 +1,15 @@
-<html>
-    <h1>{{item.name}}</h1>
-    <h3>{{item.description}}</h3>
-    <h3>Added by {{creator.name}}</h3>
-    <a href="{{url_for('editItem', category_id = category.id, item_id = item.id)}}">Edit</a>
-    <a href="{{url_for('deleteItem', category_id = category.id, item_id = item.id)}}">Delete</a>
+{% include "main.html" %}
+
+    <div class="container-fluid main-1 text-center">
+        <h3>{{item.name}}</h3>
+        <a href="{{url_for('editItem', category_id = category.id, item_id = item.id)}}">Edit</a>
+        <a href="{{url_for('deleteItem', category_id = category.id, item_id = item.id)}}">Delete</a>
+    </div>
+    <div class="container-fluid main-2 text-center">
+        <h4>{{item.description}}</h4>
+        <br>
+        <h6>Added by {{creator.name}}</h6>
+        <br>
+    </div>
+</body>
 </html>

@@ -1,15 +1,16 @@
-<html>
-    <body>
-        <h1> Are you sure you want to delete {{item.name}}? </h1>
-        
-        <form action="#" method = 'post'>
-        
-        <input type='submit', value = 'Delete'>
-        
-        
+{% include "main.html" %}
+
+<div class="container-fluid main-1 text-center">
+   <h3>Are you sure you want to delete "{{item.name}}"?</h3>
+</div>
+<div class="container-fluid main-2 text-center">
+    <p>
+        <form action="#" method = 'post'>                               
+        <input type='submit' value='Delete'>
         </form>
-        
-        <a href = '{{url_for('showItems', category_id = category.id)}}'> Cancel </a>
-    </body>
-    
+        <br>
+        <a href = '{{url_for('showItem', category_id = category.id, item_id = item.id)}}'> Cancel </a>            
+    </p>
+</div>
+</body>
 </html>

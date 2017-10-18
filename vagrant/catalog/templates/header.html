@@ -1,0 +1,24 @@
+<nav class="navbar navbar-light bg-light flex-row">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand mr-auto" href="/">thebest</a>    
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="true" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarsExample01">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                    <a class="nav-link" href="/users">Contributors</a>
+                    </li>
+                    <li class="nav-item active">
+                    {% if 'username' not in session %}
+                    <a class="nav-link" href="/login">Login</a>
+                    {% else %}
+                    <a class="nav-link" href="/gdisconnect">Logout</a>
+                    {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
