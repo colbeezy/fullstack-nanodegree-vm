@@ -24,3 +24,6 @@ It is a simple CRUD web app that allows users to add their favorite entertainmen
 ## Using the Program
 * All users, even unauthenticated ones, can view all content, including the API endpoints
 * To add categories and items, you must login via Google
+
+## Attribution
+* Front-end design is based on W3Schools' ["Simple Me" Bootstrap theme](https://github.com/colbeezy/fullstack-nanodegree-vm), though much of the code has been modified.
