@@ -272,9 +272,11 @@ def showItems(category_id):
     items = session.query(Item).filter_by(category_id=category_id).all()
     creator = getUserInfo(category.user_id)
     if 'username' not in login_session or creator.id != login_session['user_id']:
-        return render_template('publicItems.html', items=items, category=category, category_id=category_id, creator=creator)
+        return render_template('publicItems.html', items=items, category=category,
+                               category_id=category_id, creator=creator)
     else:
-        return render_template('items.html', items=items, category=category, category_id=category_id, creator=creator)
+        return render_template('items.html', items=items, category=category,
+                               category_id=category_id, creator=creator)
 
 
 # Create an item
@@ -286,7 +288,7 @@ def newItem(category_id):
         return redirect('/login')
     if request.method == 'POST':
         newItem = Item(name=request.form['name'],
-                       description=request.form['description'], category_id=category_id, 
+                       description=request.form['description'], category_id=category_id,
                        user_id=login_session['user_id'])
         session.add(newItem)
         session.commit()
@@ -304,9 +306,11 @@ def showItem(category_id, item_id):
     item = session.query(Item).filter_by(id=item_id).one()
     creator = getUserInfo(item.user_id)
     if 'username' not in login_session or creator.id != login_session['user_id']:
-        return render_template('publicItem.html', item=item, category=category, category_id=category_id, creator=creator)
+        return render_template('publicItem.html', item=item, category=category,
+                               category_id=category_id, creator=creator)
     else:
-        return render_template('item.html', item=item, category=category, category_id=category_id, creator=creator)
+        return render_template('item.html', item=item, category=category,
+                               category_id=category_id, creator=creator)
 
 
 # Edit an item
