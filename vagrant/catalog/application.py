@@ -31,6 +31,9 @@ session = DBSession()
 # Create an anti-forgery state token
 @app.route('/login')
 def showLogin():
+    """
+    Creates a random state token and stores it.
+    """
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
     login_session['state'] = state
     if 'username' in login_session:
@@ -41,6 +44,9 @@ def showLogin():
 # Allow for login with Google
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
+    """
+    Gathers data from Google Sign In API and places it inside a session variable.
+    """
     # Validate state token
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('Invalid state parameter.'), 401)
@@ -134,6 +140,9 @@ def gconnect():
 
 # User helper functions
 def createUser(login_session):
+    """
+    Adds new user to the db and returns the user id.
+    """
     newUser = User(name=login_session['username'], email=login_session[
         'email'], profile_image=login_session['picture'])
     session.add(newUser)
@@ -142,10 +151,16 @@ def createUser(login_session):
     return user.id
 
 def getUserInfo(user_id):
+    """
+    Returns the user from the user's id.
+    """
     user = session.query(User).filter_by(id=user_id).one()
     return user
 
 def getUserID(email):
+    """
+    Return's the user's id from the user's email.
+    """
     try:
         user = session.query(User).filter_by(email=email).one()
         return user.id
@@ -156,6 +171,9 @@ def getUserID(email):
 # Allow for logout with Google
 @app.route('/gdisconnect')
 def gdisconnect():
+    """
+    Deletes all user information stored in login_session if user is logged in.
+    """
     access_token = login_session.get('access_token')
     # Check if user is logged in
     if access_token is None:
@@ -165,14 +183,9 @@ def gdisconnect():
         return response
 
     #Execute HTTP GET request to revoke current token
-    print 'In gdisconnect access token is %s', access_token
-    print 'User name is: '
-    print login_session['username']
     url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
-    print 'result is '
-    print result
     if result['status'] == '200':
         del login_session['access_token']
         del login_session['gplus_id']
@@ -235,9 +248,10 @@ def newCategory():
 # Edit a category
 @app.route('/categories/<int:category_id>/edit/', methods=['GET', 'POST'])
 def editCategory(category_id):
-    if 'username' not in login_session:
-        return redirect('/login')
     categoryToEdit = session.query(Category).filter_by(id=category_id).one()
+    creator = getUserInfo(categoryToEdit.user_id)
+    if 'username' not in login_session or creator.id != login_session['user_id']:
+        return redirect('/login')
     if request.method == 'POST':
         if request.form['name']:
             categoryToEdit.name = request.form['name']
@@ -252,9 +266,12 @@ def editCategory(category_id):
 # Delete a category
 @app.route('/categories/<int:category_id>/delete/', methods=['GET', 'POST'])
 def deleteCategory(category_id):
+    categoryToDelete = session.query(Category).filter_by(id=category_id).one()
+    creator = getUserInfo(categoryToDelete.user_id)
+    if 'username' not in login_session or creator.id != login_session['user_id']:
+        return redirect('/login')
     if 'username' not in login_session:
         return redirect('/login')
-    categoryToDelete = session.query(Category).filter_by(id=category_id).one()
     if request.method == 'POST':
         session.delete(categoryToDelete)
         session.commit()
